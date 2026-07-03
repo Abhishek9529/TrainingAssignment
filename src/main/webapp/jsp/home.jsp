@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 
@@ -183,8 +184,270 @@
       </div>
     </div>
 
-    <div id="tab4" class="tab-content"><h2>Tab 4 Content</h2></div>
-    <div id="tab5" class="tab-content"><h2>Tab 5 Content</h2></div>
+    <!-- Tab 4 -->
+    <div id="tab4" class="tab-content">
+
+        <div style="padding:20px;">
+
+            <h3>Prefix Master</h3>
+
+            <%--@elvariable id="prefix" type=""--%>
+            <form:form action="${pageContext.request.contextPath}/prefix/save"
+                       method="post"
+                       modelAttribute="prefix">
+
+                <table style="width:100%;">
+
+                    <tr>
+
+                        <td style="width:120px;">
+                            <label>Prefix</label>
+                        </td>
+
+                        <td>
+                            <form:input path="prefix"
+                                        style="width:220px;padding:6px;"/>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <label>Gender</label>
+                        </td>
+
+                        <td>
+
+                            <form:select path="gender"
+                                         style="width:235px;padding:6px;">
+
+                                <form:option value="">--Select Gender--</form:option>
+
+                                <form:option value="Male">Male</form:option>
+
+                                <form:option value="Female">Female</form:option>
+
+                                <form:option value="Other">Other</form:option>
+
+                            </form:select>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <label>Prefix Of</label>
+                        </td>
+
+                        <td>
+
+                            <form:input path="prefixOf"
+                                        style="width:220px;padding:6px;"/>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td></td>
+
+                        <td>
+
+                            <button type="submit"
+                                    style="padding:8px 20px;
+                                       background:#0b72d9;
+                                       color:white;
+                                       border:none;
+                                       cursor:pointer;">
+
+                                Save
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </table>
+
+            </form:form>
+
+            <br><br>
+
+            <table border="1"
+                   cellpadding="8"
+                   cellspacing="0"
+                   style="width:100%;border-collapse:collapse;">
+
+                <thead>
+
+                <tr style="background:#efefef;">
+
+                    <th>ID</th>
+
+                    <th>Prefix</th>
+
+                    <th>Gender</th>
+
+                    <th>Prefix Of</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                <c:forEach items="${prefixList}" var="p">
+
+                    <tr>
+
+                        <td>${p.id}</td>
+
+                        <td>${p.prefix}</td>
+
+                        <td>${p.gender}</td>
+
+                        <td>${p.prefixOf}</td>
+
+                        <td>
+
+                            <a href="${pageContext.request.contextPath}/prefix/delete/${p.id}"
+                               onclick="return confirm('Delete this record?')">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                </c:forEach>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ================= TAB 5 ================= -->
+
+    <div id="tab5" class="tab-content">
+
+        <div style="padding:20px;">
+
+            <h2>Excel Upload & Download</h2>
+
+            <br>
+
+            <!-- Action Buttons -->
+
+            <div style="margin-bottom:20px;">
+
+                <button id="downloadExcelBtn"
+                        onclick="downloadExcel()"
+                        style="padding:8px 18px;
+                           background:#0b72d9;
+                           color:white;
+                           border:none;
+                           cursor:pointer;
+                           margin-right:10px;">
+
+                    Download Excel
+
+                </button>
+
+                <button id="downloadTemplateBtn"
+                        style="padding:8px 18px;
+                           background:#198754;
+                           color:white;
+                           border:none;
+                           cursor:pointer;
+                           margin-right:20px;">
+
+                    Download Template
+
+                </button>
+
+            </div>
+
+            <!-- Upload -->
+
+            <div style="margin-bottom:25px;">
+
+                <input type="file"
+                       id="excelFile"
+                       accept=".xlsx,.xls"/>
+
+                <button id="uploadExcelBtn"
+                        style="padding:8px 18px;
+                           margin-left:10px;
+                           background:#fd7e14;
+                           color:white;
+                           border:none;
+                           cursor:pointer;">
+
+                    Upload Excel
+
+                </button>
+
+            </div>
+
+            <hr>
+
+            <br>
+
+            <!-- Prefix Table -->
+
+            <table border="1"
+                   cellspacing="0"
+                   cellpadding="8"
+                   style="width:100%;
+                      border-collapse:collapse;">
+
+                <thead style="background:#efefef;">
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Prefix</th>
+                    <th>Gender</th>
+                    <th>Prefix Of</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                <c:forEach items="${prefixList}" var="p">
+
+                    <tr>
+
+                        <td>${p.id}</td>
+                        <td>${p.prefix}</td>
+                        <td>${p.gender}</td>
+                        <td>${p.prefixOf}</td>
+
+                    </tr>
+
+                </c:forEach>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
     <div id="tab6" class="tab-content"><h2>Tab 6 Content</h2></div>
     <div id="tab7" class="tab-content"><h2>Tab 7 Content</h2></div>
 
@@ -245,6 +508,13 @@
         // Show the tab content
         document.getElementById(tabId).classList.add('active');
     }
+    
+    // Download Excel file
+    function downloadExcel() {
+        // Trigger download by making a GET request to the Excel endpoint
+        window.location.href = '${pageContext.request.contextPath}/excel/download';
+    }
+    
     // for popup btn
     function openPopup() {
         document.getElementById('popupOverlay').style.display = 'block';
