@@ -62,12 +62,12 @@
 
     <!-- Tab Buttons -->
     <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchTab(event, 'tab1')">Tab 1</button>
-        <button class="tab-btn" onclick="switchTab(event, 'tab2')">Tab 2</button>
-        <button class="tab-btn" onclick="switchTab(event, 'tab3')">Tab 3</button>
-        <button class="tab-btn" onclick="switchTab(event, 'tab4')">Tab 4</button>
-        <button class="tab-btn" onclick="switchTab(event, 'tab5')">Tab 5</button>
-        <button class="tab-btn" onclick="switchTab(event, 'tab6')">Tab 6</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'tab1')">Drop Down</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab2')">Pop-Up</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab3')">List</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab4')">Entry Screen</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab5')">Node Js(Preview and Print)</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab6')">Excel upload and download</button>
         <button class="tab-btn" onclick="switchTab(event, 'tab7')">Tab 7</button>
     </div>
 
@@ -253,6 +253,41 @@
     function closePopup() {
         document.getElementById('popupOverlay').style.display = 'none';
     }
+
+    // Search by Name (client-side filtering)
+    document.addEventListener('DOMContentLoaded', function() {
+        var tbody = document.querySelector('#staffTable tbody');
+        var totalSpan = document.getElementById('totalRecords');
+        var currentPageInput = document.getElementById('currentPage');
+        var totalPagesSpan = document.getElementById('totalPages');
+
+        if (tbody && totalSpan) {
+            var initialCount = tbody.querySelectorAll('tr').length;
+            totalSpan.textContent = initialCount;
+            if (totalPagesSpan) totalPagesSpan.textContent = 1;
+            if (currentPageInput) currentPageInput.value = 1;
+        }
+
+        var searchInput = document.getElementById('searchName');
+        if (searchInput && tbody) {
+            searchInput.addEventListener('input', function() {
+                var filter = this.value.trim().toLowerCase();
+                var rows = tbody.querySelectorAll('tr');
+                var visible = 0;
+                rows.forEach(function(r){
+                    var nameCell = r.cells[0] ? r.cells[0].textContent.trim().toLowerCase() : '';
+                    if (filter === '' || nameCell.indexOf(filter) !== -1) {
+                        r.style.display = '';
+                        visible++;
+                    } else {
+                        r.style.display = 'none';
+                    }
+                });
+                totalSpan.textContent = visible;
+                if (currentPageInput) currentPageInput.value = 1;
+            });
+        }
+    });
 
 </script>
 
