@@ -254,7 +254,7 @@
         document.getElementById('popupOverlay').style.display = 'none';
     }
 
-    // Search by Name (client-side filtering)
+    // Client-side filtering (combined: name + code + other filters)
     document.addEventListener('DOMContentLoaded', function() {
         var tbody = document.querySelector('#staffTable tbody');
         var totalSpan = document.getElementById('totalRecords');
@@ -268,25 +268,62 @@
             if (currentPageInput) currentPageInput.value = 1;
         }
 
-        var searchInput = document.getElementById('searchName');
-        if (searchInput && tbody) {
-            searchInput.addEventListener('input', function() {
-                var filter = this.value.trim().toLowerCase();
-                var rows = tbody.querySelectorAll('tr');
-                var visible = 0;
-                rows.forEach(function(r){
-                    var nameCell = r.cells[0] ? r.cells[0].textContent.trim().toLowerCase() : '';
-                    if (filter === '' || nameCell.indexOf(filter) !== -1) {
-                        r.style.display = '';
-                        visible++;
-                    } else {
-                        r.style.display = 'none';
-                    }
-                });
-                totalSpan.textContent = visible;
-                if (currentPageInput) currentPageInput.value = 1;
+        var inputs = {
+            name: document.getElementById('searchName'),
+            code: document.getElementById('searchCode'),
+            userType: document.getElementById('filterUserType'),
+            phone: document.getElementById('filterPhone'),
+            department: document.getElementById('filterDepartment'),
+            status: document.getElementById('filterStatus')
+        };
+
+        function applyFilters() {
+            if (!tbody) return;
+            var nameFilter = inputs.name ? inputs.name.value.trim().toLowerCase() : '';
+            var codeFilter = inputs.code ? inputs.code.value.trim().toLowerCase() : '';
+            var userTypeFilter = inputs.userType ? inputs.userType.value.trim().toLowerCase() : '';
+            var phoneFilter = inputs.phone ? inputs.phone.value.trim().toLowerCase() : '';
+            var departmentFilter = inputs.department ? inputs.department.value.trim().toLowerCase() : '';
+            var statusFilter = inputs.status ? inputs.status.value.trim().toLowerCase() : '';
+
+            var rows = tbody.querySelectorAll('tr');
+            var visible = 0;
+            rows.forEach(function(r){
+                var cells = r.cells;
+                var nameCell = cells[0] ? cells[0].textContent.trim().toLowerCase() : '';
+                var codeCell = cells[1] ? cells[1].textContent.trim().toLowerCase() : '';
+                var userTypeCell = cells[2] ? cells[2].textContent.trim().toLowerCase() : '';
+                var phoneCell = cells[3] ? cells[3].textContent.trim().toLowerCase() : '';
+                var departmentCell = cells[4] ? cells[4].textContent.trim().toLowerCase() : '';
+                var statusCell = cells[5] ? cells[5].textContent.trim().toLowerCase() : '';
+
+                var match = true;
+                if (nameFilter && nameCell.indexOf(nameFilter) === -1) match = false;
+                if (codeFilter && codeCell.indexOf(codeFilter) === -1) match = false;
+                if (userTypeFilter && userTypeCell !== userTypeFilter) match = false;
+                if (phoneFilter && phoneCell.indexOf(phoneFilter) === -1) match = false;
+                if (departmentFilter && departmentCell.indexOf(departmentFilter) === -1) match = false;
+                if (statusFilter && statusCell.indexOf(statusFilter) === -1) match = false;
+
+                if (match) {
+                    r.style.display = '';
+                    visible++;
+                } else {
+                    r.style.display = 'none';
+                }
             });
+
+            totalSpan.textContent = visible;
+            if (currentPageInput) currentPageInput.value = 1;
         }
+
+        // Attach listeners to relevant inputs
+        if (inputs.name) inputs.name.addEventListener('input', applyFilters);
+        if (inputs.code) inputs.code.addEventListener('input', applyFilters);
+        if (inputs.userType) inputs.userType.addEventListener('change', applyFilters);
+        if (inputs.phone) inputs.phone.addEventListener('input', applyFilters);
+        if (inputs.department) inputs.department.addEventListener('change', applyFilters);
+        if (inputs.status) inputs.status.addEventListener('change', applyFilters);
     });
 
 </script>
