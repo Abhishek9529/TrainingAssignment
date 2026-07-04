@@ -3,14 +3,14 @@ package com.mednet.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "prefix")
+@Table(name = "`prefix`")
 public class Prefix {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "prefix")
+    @Column(name = "`prefix`")
     private String prefix;
 
     @Column(name = "gender")

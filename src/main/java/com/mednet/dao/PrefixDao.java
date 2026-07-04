@@ -31,6 +31,7 @@ public class PrefixDao {
             }
 
             e.printStackTrace();
+            throw new RuntimeException("Failed to save prefix: " + e.getMessage(), e);
         }
     }
 

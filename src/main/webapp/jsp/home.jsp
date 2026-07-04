@@ -478,7 +478,15 @@
         </div>
 
     </div>
-    <div id="tab6" class="tab-content"><h2>Tab 6 Content</h2></div>
+
+
+    <!-- ================= TAB 6 ================= -->
+    <div id="tab6" class="tab-content">
+
+        <jsp:include page="tab6.jsp"/>
+
+    </div>
+
     <div id="tab7" class="tab-content"><h2>Tab 7 Content</h2></div>
 
     <!-- Popup Modal (Hidden by default) -->
