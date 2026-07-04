@@ -21,6 +21,26 @@
     <!-- Enable Spring MVC -->
     <mvc:annotation-driven/>
 
+    <!-- Multipart File Upload Configuration -->
+    <!-- This bean enables Spring MVC to handle file uploads via MultipartFile parameter.
+         It processes multipart/form-data requests and makes uploaded files available
+         as MultipartFile objects in controller methods.
+    -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        
+        <!-- Maximum upload file size in bytes: 10 MB -->
+        <!-- This prevents extremely large file uploads that could consume server resources.
+             Users attempting to upload files larger than this limit will receive an error.
+        -->
+        <property name="maxUploadSize" value="10485760"/>
+        
+        <!-- Maximum request size in bytes: 10 MB -->
+        <!-- Limits the total size of the entire multipart request.
+        -->
+        <property name="maxInMemorySize" value="10485760"/>
+        
+    </bean>
+
     <!-- JSP View Resolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 

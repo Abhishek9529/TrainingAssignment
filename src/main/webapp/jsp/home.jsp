@@ -366,6 +366,7 @@
                 </button>
 
                 <button id="downloadTemplateBtn"
+                        onclick="downloadTemplate()"
                         style="padding:8px 18px;
                            background:#198754;
                            color:white;
@@ -379,15 +380,44 @@
 
             </div>
 
-            <!-- Upload -->
+            <!-- Success and Error Message Display -->
+            <c:if test="${not empty successMessage}">
+                <div style="margin-bottom:15px; padding:12px; background-color:#d4edda; color:#155724; border:1px solid #c3e6cb; border-radius:4px;">
+                    ${successMessage}
+                </div>
+            </c:if>
+            
+            <c:if test="${not empty errorMessage}">
+                <div style="margin-bottom:15px; padding:12px; background-color:#f8d7da; color:#721c24; border:1px solid #f5c6cb; border-radius:4px;">
+                    ${errorMessage}
+                </div>
+            </c:if>
 
-            <div style="margin-bottom:25px;">
+            <!-- Upload Form -->
+            <!-- This form:
+                 - Uses multipart/form-data encoding for file upload
+                 - Submits POST request to /excel/upload endpoint
+                 - Contains file input and submit button
+                 - Success/error messages are displayed above via redirectAttributes
+            -->
+            <form id="uploadForm"
+                  action="${pageContext.request.contextPath}/excel/upload"
+                  method="post"
+                  enctype="multipart/form-data"
+                  style="margin-bottom:25px;">
 
+                <!-- File Input: accepts only .xlsx files
+                     name="excelFile" matches the @RequestParam in controller
+                -->
                 <input type="file"
                        id="excelFile"
-                       accept=".xlsx,.xls"/>
+                       name="excelFile"
+                       accept=".xlsx,.xls"
+                       style="padding:6px;"/>
 
+                <!-- Submit Button: sends form to /excel/upload endpoint -->
                 <button id="uploadExcelBtn"
+                        type="submit"
                         style="padding:8px 18px;
                            margin-left:10px;
                            background:#fd7e14;
@@ -399,7 +429,7 @@
 
                 </button>
 
-            </div>
+            </form>
 
             <hr>
 
@@ -513,6 +543,12 @@
     function downloadExcel() {
         // Trigger download by making a GET request to the Excel endpoint
         window.location.href = '${pageContext.request.contextPath}/excel/download';
+    }
+
+    // Download Excel template file
+    function downloadTemplate() {
+        // Trigger template download by making a GET request to the template endpoint
+        window.location.href = '${pageContext.request.contextPath}/excel/template';
     }
     
     // for popup btn

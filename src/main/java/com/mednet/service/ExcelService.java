@@ -93,6 +93,58 @@ public class ExcelService {
     }
     
     /**
+     * Generates an empty Excel template (blank workbook with headers only).
+     * 
+     * Process:
+     * 1. Creates a new XSSFWorkbook (OOXML format for .xlsx)
+     * 2. Creates a new sheet named "Prefixes"
+     * 3. Writes header row with column names only
+     * 4. Auto-sizes columns for better readability
+     * 5. Converts workbook to byte array for HTTP download
+     * 
+     * Note: This template contains NO data rows, just headers.
+     * Users can fill in this template and upload it later.
+     * 
+     * @return Byte array representing the empty template Excel file
+     * @throws IOException If workbook creation or conversion fails
+     */
+    public byte[] generatePrefixTemplate() throws IOException {
+        // Create a new workbook in OOXML format (.xlsx)
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        
+        // Create a new sheet named "Prefixes"
+        Sheet sheet = workbook.createSheet("Prefixes");
+        
+        // Create header row with formatting
+        Row headerRow = sheet.createRow(0);
+        
+        // Create cell style for header (bold, centered background)
+        CellStyle headerStyle = createHeaderStyle(workbook);
+        
+        // Define column headers (same headers as the data export)
+        String[] headers = {"Prefix", "Gender", "Prefix Of"};
+        
+        // Write headers to the first row
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+            cell.setCellStyle(headerStyle);
+        }
+        
+        // Auto-size columns for better readability
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+        
+        // Convert workbook to byte array
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        
+        return outputStream.toByteArray();
+    }
+    
+    /**
      * Creates a header cell style with bold font and light gray background.
      * 
      * @param workbook XSSFWorkbook to create the style from
