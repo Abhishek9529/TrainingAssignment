@@ -1,0 +1,20 @@
+{
+  "name": "node-pdf",
+  "version": "1.0.0",
+  "description": "PDF generation using Puppeteer - Tab 7 Training Assignment",
+  "main": "generatePdf.js",
+  "scripts": {
+    "pdf": "node generatePdf.js",
+    "generate": "node generatePdf.js"
+  },
+  "keywords": [
+    "pdf",
+    "puppeteer",
+    "generation"
+  ],
+  "author": "Training Assignment",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  }
+}

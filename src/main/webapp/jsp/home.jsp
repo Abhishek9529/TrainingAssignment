@@ -487,7 +487,9 @@
 
     </div>
 
-    <div id="tab7" class="tab-content"><h2>Tab 7 Content</h2></div>
+    <div id="tab7" class="tab-content">
+        <jsp:include page="tab7.jsp"/>
+    </div>
 
     <!-- Popup Modal (Hidden by default) -->
     <div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000;">
