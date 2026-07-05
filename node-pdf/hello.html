@@ -12,7 +12,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #999999;
         }
         .container {
             background: white;
@@ -52,26 +52,11 @@
 <body>
     <div class="container">
         <h1>Hello World</h1>
-        <div class="datetime" id="datetime"></div>
+
         <p>This PDF was generated using Puppeteer.</p>
-        <div class="footer">
-            <p>Generated with ❤️ using Node.js + Puppeteer</p>
-        </div>
+
     </div>
 
-    <script>
-        // Display current date and time
-        const now = new Date();
-        const options = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        };
-        document.getElementById('datetime').textContent = now.toLocaleDateString('en-US', options);
-    </script>
+
 </body>
 </html>

@@ -48,13 +48,39 @@
             btn.style.background = '#999';
             statusField.value = 'Generating PDF...';
 
-            // Simulate PDF generation process
-            // In production, this would call a backend endpoint that runs the Node.js script
-            setTimeout(function() {
-                statusField.value = 'PDF generated successfully! Output: node-pdf/output/hello.pdf';
+            // Call backend endpoint to generate PDF
+            fetch('<%= request.getContextPath() %>/api/pdf/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    return response.json().then(function(data) {
+                        throw new Error(data.message || 'Failed to generate PDF');
+                    });
+                }
+                // PDF returned as binary - trigger download
+                return response.blob().then(function(blob) {
+                    var url = window.URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'hello.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    statusField.value = 'PDF generated successfully and download started!';
+                });
+            })
+            .catch(function(error) {
+                statusField.value = 'Error: ' + error.message;
+            })
+            .finally(function() {
                 btn.disabled = false;
                 btn.style.background = '#0b72d9';
-            }, 2000);
+            });
         }
     </script>
 
